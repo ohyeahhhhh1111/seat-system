@@ -1,0 +1,32 @@
+:root {
+  --border: #000000;
+  --empty: #ffffff;   /* 空位 白 */
+  --occupied: #ff0000; /* 已佔用 紅 */
+  --pending: #00ff00; /* 請選擇 綠 */
+  --danger: #dc2626;
+  --success: #16a34a;
+}
+
+body {
+  font-family: "Microsoft JhengHei", Arial, sans-serif;
+  background: #f3f4f6;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+select,
+input {
+  font-family: inherit;
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+.text-success {
+  color: var(--success);
+}

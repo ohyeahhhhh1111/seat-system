@@ -1,0 +1,12 @@
+# Java / Spring Boot
+*.class
+*.jar
+target/
+*.log
+.idea/
+.vscode/
+
+# Node / Frontend
+node_modules/
+dist/
+.env

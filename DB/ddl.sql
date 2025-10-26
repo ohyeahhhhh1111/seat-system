@@ -1,0 +1,25 @@
+DROP DATABASE IF EXISTS seat_system;
+CREATE DATABASE seat_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE seat_system;
+
+-- 樓層座位表
+CREATE TABLE seatingchart (
+  FLOOR_SEAT_SEQ VARCHAR(10) PRIMARY KEY,
+  FLOOR_NO INT NOT NULL,
+  SEAT_NO INT NOT NULL
+);
+
+-- 員工表
+CREATE TABLE employee (
+  EMP_ID CHAR(5) PRIMARY KEY,
+  NAME VARCHAR(30) NOT NULL,
+  EMAIL VARCHAR(50),
+  FLOOR_SEAT_SEQ VARCHAR(10),
+  CONSTRAINT fk_emp_seat FOREIGN KEY (FLOOR_SEAT_SEQ)
+      REFERENCES seatingchart(FLOOR_SEAT_SEQ)
+      ON DELETE SET NULL
+);
+
+-- 每個座位只能被一個員工佔用
+ALTER TABLE employee
+  ADD UNIQUE KEY uq_employee_floor_seat_seq (FLOOR_SEAT_SEQ);
