@@ -1,5 +1,13 @@
 package com.example.seatsystem.common.dto;
 
+/**
+ * SeatView - 座位檢視資料物件
+ *
+ * 用於封裝每個座位的顯示資訊，例如樓層、座位編號、是否被佔用、以及目前使用者的員工編號。
+ * 
+ * - 由 Service（如 SeatQueryService）查詢座位狀態後，回傳給前端顯示。
+ */
+
 public class SeatView {
 
     private String floorSeatSeq;
@@ -8,12 +16,11 @@ public class SeatView {
     private boolean occupied;
     private String empId;
 
-    // 🔹 建構子（供 SeatQueryService 使用）
     public SeatView(String floorSeatSeq, Integer floorNo, Integer seatNo, boolean occupied, String empId) {
         this.floorSeatSeq = floorSeatSeq;
         this.floorNo = floorNo;
         this.seatNo = seatNo;
-        this.occupied = occupied;
+        this.occupied = occupied; //座位是否已被佔用
         this.empId = empId;
     }
 

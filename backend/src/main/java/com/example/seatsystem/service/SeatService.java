@@ -13,10 +13,17 @@ import com.example.seatsystem.model.Seat;
 import com.example.seatsystem.repository.EmployeeRepository;
 import com.example.seatsystem.repository.SeatRepository;
 
+/**
+ * SeatService
+ *
+ * - 提供與「座位」相關的商業邏輯。
+ * - 整合員工與座位資料，用於生成可供前端顯示的座位狀態。
+ * - 包含呼叫儲存程序進行座位指派與清除的功能。
+ */
 @Service
 public class SeatService {
-    private final SeatRepository repo;
-    private final EmployeeRepository epSeatrepo; // 假設有員工座位表
+    private final SeatRepository repo;  //座位資料存取層 (DAO)
+    private final EmployeeRepository epSeatrepo; // 員工資料存取層 (DAO) 
 
     public SeatService(SeatRepository repo, EmployeeRepository epSeatrepo) {
         this.repo = repo;
@@ -24,13 +31,14 @@ public class SeatService {
     }
 
     public Map<Integer, List<Seat>> getGroupedSeats() {
+        // 建立座位對應表：floorSeatSeq → empId
         List<Seat> seats = repo.findAll();
         List<Employee> empSeats = epSeatrepo.findAll();
 
-        // 建立座位占用對應表
+        // 建立座位對應表 floorSeatSeq → empId
         Map<String, String> occupiedMap = empSeats.stream().collect(Collectors.toMap(Employee::getFloorSeatSeq, Employee::getEmpId));
 
-        // 填入 occupied 與 empId
+        // 更新每個座位的狀態
         seats.forEach(seat -> {
             if (occupiedMap.containsKey(seat.getFloorSeatSeq())) {
                 seat.setOccupied(true);
@@ -41,7 +49,7 @@ public class SeatService {
             }
         });
 
-        // 分樓層
+        // 依樓層分組
         return seats.stream()
                 .collect(Collectors.groupingBy(
                         Seat::getFloorNo,

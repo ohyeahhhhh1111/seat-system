@@ -5,7 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-@Entity
+/**
+ * Employee 實體類別
+ *
+ * 對應資料庫中的 employee 表，用於儲存員工基本資訊及座位分配狀態。
+ */
+
+@Entity // 標示為 JPA 實體類別
 @Table(name = "employee")
 public class Employee {
     @Id

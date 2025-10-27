@@ -2,8 +2,10 @@
   <main class="container">
     <h2>● 員工座位安排系統</h2>
 
+    <!-- 員工選擇下拉元件 -->
     <EmployeeSelect v-model:employeeId="selectedEmpId" />
 
+    <!-- seatmap元件 -->
     <SeatMap
       :seats="seats"
       :selectedSeat="selectedSeat"
@@ -11,6 +13,7 @@
       @select-seat="selectSeat"
     />
 
+    <!-- 狀態 -->
     <div class="legend">
       <span><span class="dot empty"></span> 空位</span>
       <span><span class="dot occupied"></span> 已佔用</span>
@@ -31,10 +34,10 @@ import EmployeeSelect from '@/components/EmployeeSelect.vue'
 import SeatMap from '@/components/SeatMap.vue'
 import { SeatAPI } from '@/services/api'
 
-const seats = ref([]);
-const selectedEmpId = ref('');
-const selectedSeat = ref(null);
-const message = ref('');
+const seats = ref([]); // 所有座位(依樓層分組)
+const selectedEmpId = ref(''); // 選中的員工編號
+const selectedSeat = ref(null); // 選中的座位序號
+const message = ref(''); // 操作回饋訊息
 
 onMounted(async () => {
   seats.value = await SeatAPI.getSeats();
@@ -47,10 +50,13 @@ const selectSeat = (seat) => {
     return;
   }
 
+  // 更新座位狀態
   for (const floor in seats.value) {
     seats.value[floor] = seats.value[floor].map(s => {
+      // 若該座位原屬於該員工 → 釋放座位
       if (s.empId === selectedEmpId.value)
         return { ...s, empId: null, occupied: false };
+      // 若點選的新座位 → 標示已佔用
       if (s.floorSeatSeq === seat.floorSeatSeq)
         return { ...s, empId: selectedEmpId.value, occupied: true };
       return s;

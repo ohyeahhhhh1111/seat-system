@@ -14,15 +14,19 @@
           :key="s.floorSeatSeq"
           class="seat"
           :class="{
-            occupied: s.occupied,
-            empty: !s.occupied && selectedSeat !== s.floorSeatSeq,
-            selected: selectedSeat === s.floorSeatSeq,
+            occupied: s.occupied, // 座位被佔用
+            empty: !s.occupied && selectedSeat !== s.floorSeatSeq, // 空位
+            selected: selectedSeat === s.floorSeatSeq, // 使用者選中的座位
+          // 不能選取其他人的座位
           }"
-          :disabled="s.occupied && s.empId !== selectedEmpId"
+          :disabled="s.occupied && s.empId !== selectedEmpId" 
           @click="onClick(s)"
         >
+          <!-- 顯示座位基本資訊 -->
           <div><b>{{ s.floorNo }} 樓：</b>座位 {{ s.seatNo }}</div>
+          <!-- 已佔用 -->
           <div v-if="s.occupied">[員編：{{ s.empId }}]</div>
+          <!-- 正在被選取 -->
           <div v-else-if="selectedSeat === s.floorSeatSeq">請選擇</div>
         </button>
       </div>
@@ -32,7 +36,7 @@
 
 <script setup>
 const props = defineProps({
-  seats: { type: Object, required: true }, // ✅ 巢狀物件：{ 1:[...], 2:[...] }
+  seats: { type: Object, required: true }, // 巢狀物件
   selectedSeat: String,
   selectedEmpId: String,
 });

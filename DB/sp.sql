@@ -1,6 +1,6 @@
 USE seat_system;
 
--- 🔹 指派座位
+-- 指派座位
 DROP PROCEDURE IF EXISTS sp_assignSeat;
 DELIMITER //
 

@@ -11,12 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.seatsystem.model.Seat;
 
-@Repository
+/**
+ * SeatRepository
+ *
+ * - 提供seatingchart資料表的 CRUD 操作。
+ * - 定義了額外的自訂查詢與資料庫儲存程序 (Stored Procedure) 呼叫。
+ */
+@Repository // Spring Data 的資料存取層 (DAO)
 public interface SeatRepository extends JpaRepository<Seat, String> {
     List<Seat> findByFloorNo(Integer floorNo);
 
     // 呼叫儲存程序：指派座位
-    @Modifying
+    @Modifying // 表示這是「修改型」操作（非查詢）
     @Transactional
     @Query(value = "CALL sp_assign_seat(:empId, :seatSeq)", nativeQuery = true)
     void assignSeat(@Param("empId") String empId, @Param("seatSeq") String seatSeq);
